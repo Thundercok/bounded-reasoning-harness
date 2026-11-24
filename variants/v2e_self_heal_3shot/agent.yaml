@@ -1,0 +1,7 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_self_heal_3shot
+description: Three-attempt fresh-context SWE agent with test-gated early submit and git-rollback retry for Gemma 4 E4B.
+sub_agents:
+  - config_path: sub_agents/attempt1.yaml
+  - config_path: sub_agents/attempt2.yaml
+  - config_path: sub_agents/attempt3_final.yaml

@@ -1,0 +1,7 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_seq3_agent
+description: Three-stage fresh-context SWE pipeline (Locator -> Coder without submit_patch -> Adversarial Verifier/Fixer without write_file).
+sub_agents:
+  - config_path: sub_agents/locator.yaml
+  - config_path: sub_agents/coder.yaml
+  - config_path: sub_agents/verifier.yaml

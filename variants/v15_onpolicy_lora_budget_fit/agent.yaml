@@ -1,0 +1,13 @@
+name: gemma4_e4b_v15_onpolicy_lora_budget_fit
+model: gemma-4-e4b-it-qat-w4a16-ct
+adapter: e4b_onpolicy_lr2e5
+description: Pure 0-skill Budget-Fit v2 single-agent (28c/5m) with Apache-2.0 on-policy E4B LoRA (lr=2e-5, r=16, alpha=8, scale=0.5, exact validated decoding).
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml

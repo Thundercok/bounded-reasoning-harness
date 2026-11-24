@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v11b_seq2_v7_t2048
+description: 2-stage TDD + Adversarial Verifier (think=2048, max=3584) + verify-patch v7 (auto test-spec snippets, /tmp/_repro.py baseline-vs-patch gate, incumbent patch save).
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/verifier.yaml

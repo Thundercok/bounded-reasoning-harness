@@ -1,0 +1,14 @@
+name: attempt3_finalizer
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Attempt 3 fresh-context finalizer. Audits diff, repairs any remaining issue, cleans stray files, compiles, and MUST call submit_patch.
+instruction: !include ../prompts/attempt3.md
+include_contents: none
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling_s3.yaml

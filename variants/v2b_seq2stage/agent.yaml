@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_two_stage_agent
+description: Two-stage fresh-context SWE repair agent (coder without submit_patch followed by adversarial verifier/fixer).
+sub_agents:
+  - config_path: sub_agents/coder.yaml
+  - config_path: sub_agents/verifier.yaml

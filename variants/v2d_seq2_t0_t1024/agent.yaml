@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: v2d_seq2_t0_t1024_agent
+description: Two-stage fresh-context SWE repair agent (Stage 1 coder without submit_patch -> Stage 2 adversarial verifier/fixer without write_file).
+sub_agents:
+  - config_path: sub_agents/coder.yaml
+  - config_path: sub_agents/verifier.yaml

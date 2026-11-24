@@ -1,0 +1,14 @@
+name: verifier_fixer_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 3 fresh-context adversarial verifier and fixer that audits git diff, runs focused checks, fixes defects, and calls submit_patch.
+instruction: !include ../prompts/verifier.md
+include_contents: none
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling.yaml

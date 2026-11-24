@@ -1,0 +1,14 @@
+name: gemma4_e4b_v12_single_v7_clean
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Clean fast single-agent E4B (think=1024, max_output_tokens=2560) + verify-patch v7.1 (per-file baseline-diff pytest, auto test-spec snippets, /tmp/_repro.py PROVEN_FIX gate, incumbent save).
+instruction: !include prompts/system.md
+skills:
+  - skills/verify-patch
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml

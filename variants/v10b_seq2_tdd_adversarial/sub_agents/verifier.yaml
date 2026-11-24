@@ -1,0 +1,17 @@
+name: adversarial_verifier_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 2 fresh-context adversarial verifier (think=1024, max_output_tokens=2560) with verify-patch v6.2.
+instruction: !include ../prompts/verifier.md
+include_contents: none
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+skills:
+  - skills/verify-patch
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling.yaml

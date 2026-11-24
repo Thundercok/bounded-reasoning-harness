@@ -1,0 +1,14 @@
+name: coder_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 1 coder that locates the root cause, edits source code cleanly, verifies with real targeted repo tests, and hands off without submitting.
+instruction: !include ../prompts/coder.md
+output_key: coder_notes
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+generate_content_config: !include ../configs/sampling.yaml

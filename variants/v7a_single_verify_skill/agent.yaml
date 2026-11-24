@@ -1,0 +1,14 @@
+name: gemma4_e4b_v7a_single_verify_skill
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Single-agent E4B think=0 (v6b base) + deterministic verify-patch skill (auto test discovery, syntax/diff gate, real targeted pytest).
+instruction: !include prompts/system.md
+skills:
+  - skills/verify-patch
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml

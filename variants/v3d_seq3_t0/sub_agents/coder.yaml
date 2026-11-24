@@ -1,0 +1,15 @@
+name: coder_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 2 fresh-context coder that reads the located span and applies a clean, compiled source fix without submitting.
+instruction: !include ../prompts/coder.md
+include_contents: none
+output_key: coder_notes
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+generate_content_config: !include ../configs/sampling.yaml

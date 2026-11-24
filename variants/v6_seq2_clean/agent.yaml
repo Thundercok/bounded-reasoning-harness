@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v6_seq2_clean
+description: Two-stage fresh-context E4B agent (Coder without submit_patch -> Verifier with real targeted pytest & heredoc edit recovery).
+sub_agents:
+  - config_path: sub_agents/coder.yaml
+  - config_path: sub_agents/verifier.yaml

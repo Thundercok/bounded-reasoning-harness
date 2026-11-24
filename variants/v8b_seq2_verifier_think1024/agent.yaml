@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v8b_seq2_verifier_think1024
+description: Two-stage hybrid E4B (Stage 1 Coder think=0 -> Stage 2 fresh-context Verifier think=1024 + verify-patch skill).
+sub_agents:
+  - config_path: sub_agents/coder.yaml
+  - config_path: sub_agents/verifier.yaml

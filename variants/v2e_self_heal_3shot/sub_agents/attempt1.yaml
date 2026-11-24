@@ -1,0 +1,14 @@
+name: attempt1_coder
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Attempt 1 fast coder. Submits immediately ONLY if a targeted test or repro check passes; otherwise logs failure to /tmp/attempts.log and hands off.
+instruction: !include ../prompts/attempt1.md
+output_key: attempt1_notes
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling_s1.yaml

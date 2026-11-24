@@ -1,0 +1,16 @@
+name: verifier_fixer_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 2 fresh-context verifier & fixer (think=1024) with deterministic verify-patch skill.
+instruction: !include ../prompts/verifier.md
+include_contents: none
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+skills:
+  - skills/verify-patch
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling_verifier.yaml

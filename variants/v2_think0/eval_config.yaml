@@ -1,0 +1,7 @@
+# Per-task evaluation budget for Gemma 4 E4B Small Model track (v1 single-agent).
+# timeout_seconds=240 prevents Phase 2 pytest timeouts on slower suites (e.g. requests).
+evaluation:
+  timeout_seconds: 240
+  max_tool_calls: 28
+  max_time_minutes: 8
+  max_turns: 80

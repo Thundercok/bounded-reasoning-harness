@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v10b_seq2_tdd_adversarial
+description: Controlled 2-stage E4B (Stage 1 exact v10a TDD Solver -> Stage 2 fresh-context Adversarial Verifier, both think=1024, max_output_tokens=2560, verify-patch v6.2).
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/verifier.yaml
