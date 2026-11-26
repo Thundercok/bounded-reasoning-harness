@@ -1,0 +1,12 @@
+name: gemma4_e4b_v23a_v18d_import_gate
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: v18d with the submit-gate check switched from py_compile to a real module import (catches module-level NameError/ImportError).
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml
