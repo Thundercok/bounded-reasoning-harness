@@ -51,20 +51,23 @@ Controlled head-to-head ablations on real NVIDIA L4 (`24 GB`, `vLLM 0.19.1`, `Ge
 
 ```text
 bounded-reasoning-harness/
-├── variants/
-│   ├── v13_budget_fit_t1024/        # Best agent: Budget-Fit + think=1024 + verify-patch v6.2 (10/16)
-│   ├── v14_pure_budget_fit_t1024/   # Pure 0-skill Budget-Fit + think=1024 ablation (9/16)
-│   ├── v15_onpolicy_lora_budget_fit/# Budget-Fit + Apache-2.0 on-policy E4B LoRA ablation (8/16)
-│   ├── v11a_5min_safe/              # 2-stage fresh-context verifier with incumbent protection (8/16)
-│   └── v2_* .. v12_*/               # Full chronological ablation history (176+ L4 rollouts)
-├── tools/
-│   ├── local_m1_eval.py             # Gold-verified local patch grader (16/16 gold pass)
-│   └── pack_and_validate.py         # ADK submission schema validator & zip packer
-├── colab/
-│   └── colab_v13_v14_v15_eval.ipynb # Self-contained Colab L4/A100 head-to-head eval notebook
-├── kaggle*/                         # Reproducible Kaggle L4 ablation notebooks (v6 -> v12)
-├── docs/                            # Failure analyses, harness notes, and research backlog
-└── .gitattributes                   # Linguist classification for clean repository language stats
+├── variants/                        # one folder = one agent bundle (agent.yaml + prompts + configs)
+│   ├── v13_budget_fit_t1024/        # Budget-Fit + think=1024 + verify-patch v6.2 (10/16)
+│   ├── v14_pure_budget_fit_t1024/   # 0-skill Budget-Fit, Kaggle LB 0.06
+│   ├── v18d_v14_submit_gate/        # v14 + SUBMIT GATE, submitted to Kaggle
+│   ├── v22_v18d_t8min/              # v18d with an 8-minute cap
+│   ├── v23a_v18d_import_gate/       # v18d, gate check = real module import
+│   ├── v23b_v18d_pin_issue/         # v18d, issue pinned at the end of the prompt
+│   └── archive/                     # every earlier or dead-end variant (v2 → v21)
+├── colab/                           # hands-off 40-task eval waves on a Colab L4 VM
+├── tools/                           # local grader, regrade, gold sanity, packer
+├── notebooks/
+│   ├── colab/                       # self-contained Colab eval notebooks
+│   └── kaggle/                      # Kaggle L4 ablation notebooks (v6 → v12, LoRA)
+└── docs/
+    ├── EXPERIMENT_LOG.md            # start here: all results v16 → v23, LB scores, lessons
+    ├── HARNESS_README.md            # how the Kaggle harness works
+    └── archive/                     # older analyses and backlog
 ```
 
 ---
@@ -72,14 +75,18 @@ bounded-reasoning-harness/
 ## 5. Quickstart
 
 ```bash
-# Validate a variant directory and verify 12-hour runtime budget compliance
+# Package an agent folder into dist/submission.zip and validate it
+uv run python tools/pack_and_validate.py variants/v18d_v14_submit_gate
 uv run python data/lora_kit_docs/check_submission.py dist/submission.zip
 
-# Run gold-verified local re-grading on saved patches
-uv run python tools/local_m1_eval.py --help
+# Regrade a Colab wave's patches locally with the gold tests
+uv run python tools/regrade_results.py results/<wave_dir>
+
+# Run a full 40-task wave on a Colab L4 VM (see docs/EXPERIMENT_LOG.md)
+colab/bootstrap_vm.sh <session> <work_dir> <results_root> <agents.tar.gz> <out_name>:<launch.py>
 ```
 
-To reproduce the `v13` vs `v14` vs `v15` L4 head-to-head evaluation on Google Colab (L4 or A100 runtime, `sm_80+`), open [`colab/colab_v13_v14_v15_eval.ipynb`](colab/colab_v13_v14_v15_eval.ipynb).
+To reproduce the `v13` vs `v14` vs `v15` head-to-head, open [`notebooks/colab/colab_v13_v14_v15_eval.ipynb`](notebooks/colab/colab_v13_v14_v15_eval.ipynb).
 
 ---
 

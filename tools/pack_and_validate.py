@@ -1,4 +1,7 @@
-"""Validate submission/ against HARNESS_README.md rules and package dist/submission.zip."""
+"""Validate an agent directory against HARNESS_README.md rules and package dist/submission.zip.
+
+usage: pack_and_validate.py variants/v18d_v14_submit_gate
+"""
 from __future__ import annotations
 
 import ast
@@ -150,8 +153,12 @@ def pack_submission(sub_dir: Path, out_zip: Path) -> Path:
 
 
 def main() -> int:
+    import sys
     repo_root = Path(__file__).resolve().parents[1]
-    sub_dir = repo_root / "submission"
+    if len(sys.argv) != 2:
+        print(__doc__)
+        return 2
+    sub_dir = Path(sys.argv[1]).resolve()
     out_zip = repo_root / "dist" / "submission.zip"
     report = validate_submission(sub_dir)
     pack_submission(sub_dir, out_zip)
