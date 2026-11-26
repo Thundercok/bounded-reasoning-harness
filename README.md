@@ -35,6 +35,8 @@ Controlled head-to-head ablations on real NVIDIA L4 (`24 GB`, `vLLM 0.19.1`, `Ge
 - **Deterministic baseline-diff verification (`verify-patch v6.2`):** Adding `verify-patch` on top of identical Budget-Fit + `think=1024` (`v14 → v13`) improves resolution (`9/16 → 10/16`, including `4/4` on `requests`), eliminates empty patches (`2 → 0`), cuts 5-minute timeouts (`5 → 2`), and reduces mean latency by **20%** (`191.4s → 153.7s`).
 - **Union diversity (`v13 ∪ v14`):** `11/16 (68.8%)` unique tasks solved across the two top Budget-Fit variants.
 
+> **Later experiments (v16 → v23):** the 40-task Colab panel, Kaggle LB scores, failure analysis and lessons are in [`docs/EXPERIMENT_LOG.md`](docs/EXPERIMENT_LOG.md).
+
 ---
 
 ## 3. Design Principles
