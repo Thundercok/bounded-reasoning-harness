@@ -1,0 +1,13 @@
+name: gemma4_e4b_v18b_v14_lora_t1024
+model: gemma-4-e4b-it-qat-w4a16-ct
+adapter: e4b_onpolicy_lr2e5
+description: v18a + on-policy LoRA e4b_onpolicy_lr2e5 (r=16, alpha=8). Pure 0-skill Budget-Fit v2 single-agent (28c/5m/edit<=12) + E4B private thinking sweet spot (think=1024, include_thoughts=false, max_output_tokens=4096).
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml

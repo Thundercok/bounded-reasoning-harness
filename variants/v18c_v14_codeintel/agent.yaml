@@ -1,0 +1,14 @@
+name: gemma4_e4b_v18c_v14_codeintel
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: v14 + code-intel tools (search_similar_code, get_code_neighbors). Pure 0-skill Budget-Fit v2 single-agent (28c/5m/edit<=12) + E4B private thinking sweet spot (think=1024, include_thoughts=false, max_output_tokens=2560).
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+  - search_similar_code
+  - get_code_neighbors
+generate_content_config: !include configs/sampling.yaml
