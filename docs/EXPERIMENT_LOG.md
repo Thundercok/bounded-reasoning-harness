@@ -79,6 +79,17 @@ In the crashing cases the traces show the agent ran **only `py_compile`** and th
 repro step that the SUBMIT GATE asks for. E4B reliably runs the exact commands a prompt spells out, and
 it skips vague asks like "write a repro". v23a tests whether swapping in a stronger exact command helps.
 
+### Where the ceiling is (`tools/analyze_failures.py`)
+
+- **17 of the 40 panel issues are just a PR title** under 400 characters with no code, such as "fix for padding width"
+  or "empty with end", plus a GitHub link the offline sandbox cannot open. Neither arm passes them (0–1 of 17).
+  The git history up to `base_commit` has no clue either. About 40% of the tasks are underspecified for any E4B agent.
+- 10–12 failures per arm edit the **wrong file**, mostly on those short issues. Example: "padding width" goes to `padding.py`,
+  but the fix belongs in `table.py`.
+- **Only the import-breaking failures (4–5 per arm) fail tests that already exist.** Every runtime-exception and
+  wrong-logic failure fails only the *new* hidden tests, so running more of the existing tests before submitting cannot catch them.
+  The import gate (v23a) is the only cheap pre-submit check with something to catch.
+
 ## Lessons so far
 
 1. **LoRA distillation from 31B does not work on E4B** (v16, v18b, v19a, v21a, and at least two public teams).
