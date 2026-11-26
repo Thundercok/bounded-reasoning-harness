@@ -1,0 +1,12 @@
+name: gemma4_e4b_v22_v18d_t8min
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: v18d with an 8-minute per-task cap instead of 5 (public top bundles use 8-10 min; v18d timed out on 10-23/40 local tasks at 5 min). Prompt states the real 8-minute budget. Nothing else changed.
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml
