@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v17b_seq2_fresh_critic
+description: "2-stage 0-skill Budget-Fit SequentialAgent (32c/5m, think=1024, max_out=4096) with fast line-slice Solver and fresh-context Critic."
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/critic.yaml

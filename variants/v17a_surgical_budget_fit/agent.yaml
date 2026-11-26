@@ -1,0 +1,12 @@
+name: gemma4_e4b_v17a_surgical_budget_fit
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Pure 0-skill Budget-Fit (28c/5m) + private thinking (think=1024, max_out=4096) + line-slice edit fallback, all-occurrences check, direct execution repro, and patch_size>0 guard.
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml

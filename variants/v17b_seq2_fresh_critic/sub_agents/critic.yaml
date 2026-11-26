@@ -1,0 +1,15 @@
+name: fresh_critic_agent
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 2 fresh-context critic that audits git diff for missed call-sites, missing imports, or empty diffs, runs adversarial inline execution, and calls submit_patch.
+instruction: !include ../prompts/critic.md
+include_contents: none
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include ../configs/sampling.yaml
