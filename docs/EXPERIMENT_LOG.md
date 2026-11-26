@@ -19,7 +19,7 @@ The README covers v13 and v14 and the harness itself.
 |---|---|---|---|
 | 58746557 | v8a | think=1024 + verify-patch skill | 0.03 |
 | 58817076 | v14 | pure 0-skill Budget-Fit, 28 calls / 5 min, think=1024 | **0.06** |
-| 58896800 | v18d | v14 + SUBMIT GATE prompt paragraph | pending (submitted 2026-11-25) |
+| 58896800 | v18d | v14 + SUBMIT GATE prompt paragraph | 0.03 |
 
 The small-model LB on 2026-11-26 had 0.12 ×2, 0.10 ×34, 0.08 ×196 and 0.06 ×414.
 
@@ -60,20 +60,20 @@ v17a  surgical Budget-Fit prompt rewrite     v17b  2-stage sequential agent with
 | W3 | v19b v18d+code-intel | 13 | 2 | 2 | 9 | 155 | v14 13/40 | tie |
 | W5 | v21a native 31B LoRA | 10 | 2 | 7 | 23 | 309 | – | worse: copies 31B's long exploration, times out |
 | W4b | v22 8-minute cap | 8 | 2 | 2 | **6** | 224 | v18d 9/40 | fewer timeouts, but the extra patches are wrong |
-| W5b | v23a import gate | running | | | | | v18d | |
-| W5b | v23b pinned issue | running | | | | | v18d | |
+| W5b | v23a import gate | 10 | 2 | **3** | 12 | 234 | v18d 9/40 | tie (+1, noise); `import_broken` 4 vs 5 (did not stop crashes), halved empty (3 vs 6) |
+| W5b | v23b pinned issue | **12** | **3** | 6 | **11** | **165** | v18d 9/40 | best of W5 (+3, fastest, fewest TO); still built on v18d (LB 0.03) |
 
 v16 and v20a/b/c were built but have no 40-task result. Their wave was lost to Colab VM failures.
 
-## Why patches fail (Wave 4b, regraded locally)
+## Why patches fail (Wave 4b & Wave 5, regraded locally)
 
-| Failure class | v22 | v18d |
-|---|---|---|
-| PASS | 8 | 9 |
-| patch breaks import (collection `NameError`/`ImportError`) | 5 | 4 |
-| runtime exception in the patched code | 7 | 6 |
-| wrong logic (tests run, assertions fail) | 18 | 15 |
-| empty patch | 2 | 6 |
+| Failure class | W4b v22 | W4b v18d | W5 v23a | W5 v23b | W5 v18d |
+|---|---|---|---|---|---|
+| PASS | 8 | 9 | 10 | **12** | 9 |
+| patch breaks import (collection `NameError`/`ImportError`) | 5 | 4 | 4 | 4 | 5 |
+| runtime exception in the patched code | 7 | 6 | 6 | 6 | 7 |
+| wrong logic (tests run, assertions fail) | 18 | 15 | 17 | **12** | 13 |
+| empty patch | 2 | 6 | **3** | 6 | 6 |
 
 In the crashing cases the traces show the agent ran **only `py_compile`** and then submitted. It skipped the
 repro step that the SUBMIT GATE asks for. E4B reliably runs the exact commands a prompt spells out, and
