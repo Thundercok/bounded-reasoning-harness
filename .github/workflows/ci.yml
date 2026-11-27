@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install pyyaml ruff
+      - name: Syntax and undefined names
+        # Notebooks are records of past Kaggle and Colab runs and are left as they ran.
+        run: ruff check --isolated --select E9,F63,F7,F82 tools colab variants
+      - name: Validate every agent variant against the harness rules
+        run: |
+          for v in variants/v*/; do
+            python tools/pack_and_validate.py "$v" | head -1
+          done
