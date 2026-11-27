@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Bounded Reasoning Harness"
+abstract: "Budget-aware verification and bounded private reasoning for small open-weight SWE agents (Gemma 4 E4B)."
+authors:
+  - family-names: "Huynh"
+    given-names: "Nhat Huy"
+repository-code: "https://github.com/Thundercok/bounded-reasoning-harness"
+license: MIT
