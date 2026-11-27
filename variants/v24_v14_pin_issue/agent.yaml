@@ -1,0 +1,12 @@
+name: gemma4_e4b_v24_v14_pin_issue
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: v14 with {problem_description} pinned at the end of the instruction so the issue survives history compaction (drops v18d SUBMIT GATE).
+instruction: !include prompts/system.md
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+generate_content_config: !include configs/sampling.yaml
