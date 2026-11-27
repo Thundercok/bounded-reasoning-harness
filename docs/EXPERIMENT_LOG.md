@@ -20,6 +20,7 @@ The README covers v13 and v14 and the harness itself.
 | 58746557 | v8a | think=1024 + verify-patch skill | 0.03 |
 | 58817076 | v14 | pure 0-skill Budget-Fit, 28 calls / 5 min, think=1024 | **0.06** |
 | 58896800 | v18d | v14 + SUBMIT GATE prompt paragraph | 0.03 |
+| 59002868 | v25 | 2-stage SequentialAgent on exact v14 (Stage 1 no submit_patch → Stage 2 shared-context live repro & submit) | pending (submitted 2026-11-27) |
 
 The small-model LB on 2026-11-26 had 0.12 ×2, 0.10 ×34, 0.08 ×196 and 0.06 ×414.
 
