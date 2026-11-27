@@ -33,6 +33,7 @@ v14 (0-skill Budget-Fit, 28c/5m, think=1024, max_out=2560)
 ├── v18b  + on-policy LoRA adapter
 ├── v18c  + code-intel tools
 ├── v24   {problem_description} pinned at the end of the system prompt (no SUBMIT GATE)
+├── v25   2-stage SequentialAgent on exact v14 (Stage 1 no submit_patch -> Stage 2 shared-context live repro & submit)
 └── v18d  + SUBMIT GATE paragraph            ← submitted (LB 0.03)
     ├── v19a  + on-policy LoRA adapter
     ├── v19b  + code-intel tools
@@ -64,6 +65,7 @@ v17a  surgical Budget-Fit prompt rewrite     v17b  2-stage sequential agent with
 | W5b | v23a import gate | 10 | 2 | **3** | 12 | 234 | v18d 9/40 | tie (+1, noise); `import_broken` 4 vs 5 (did not stop crashes), halved empty (3 vs 6) |
 | W5b | v23b pinned issue | **12** | **3** | 6 | **11** | **165** | v18d 9/40 | best of W5 (+3, fastest, fewest TO); still built on v18d (LB 0.03) |
 | W6 | v24 v14+pinned issue | 10 | 1 | 5 | 11 | **174** | v14 10/40 | tie (10 vs 10); faster (174s vs 210s) but lower HO (1 vs 2) and more runtime_exc (10 vs 7) — not worth a LB slot |
+| W7 | v25 seq2 v14+repro | running | | | | | v14 | |
 
 v16 and v20a/b/c were built but have no 40-task result. Their wave was lost to Colab VM failures.
 

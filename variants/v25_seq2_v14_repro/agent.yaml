@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v25_seq2_v14_repro
+description: "2-stage SequentialAgent on exact v14 (28c/5m, think=1024, max_out=2560): Stage 1 v14 solver (without submit_patch) -> Stage 2 lean inline-repro verifier & submitter (shared context)."
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/repro_submitter.yaml
