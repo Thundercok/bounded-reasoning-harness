@@ -73,8 +73,10 @@ for spec in "$@"; do
     if echo "$M" | grep -q "PACKED_ZIP"; then log "$OUT complete"; done_ok=1; break; fi
     if echo "$M" | grep -qE "disallowed extension|SubmissionValidationError"; then log "$OUT VALIDATION ERROR"; echo "$M" | grep -m3 -E "disallowed|Validation"; break; fi
     if echo "$M" | grep -q "alive=False"; then log "$OUT process died"; echo "$M" | tail -40; break; fi
-    # a single 503 can mention "terminated" while the VM is fine: only give up after 3 lost checks in a row
-    if echo "$M" | grep -qiE "not found|terminated|No active session|Connection was lost|WebSocket|Bad gateway|503"; then
+    # If monitor_run.py reported alive=True, the VM is definitely reachable (never match agent log text like "not found" or "WebSocket").
+    if echo "$M" | grep -q "alive=True"; then
+      lost=0
+    elif echo "$M" | grep -qiE "not found|terminated|No active session|Connection was lost|WebSocket|Bad gateway|503" || ! echo "$M" | grep -q "PID="; then
       lost=$(( ${lost:-0} + 1 )); log "monitor check failed ($lost/3)"; echo "$M" | tail -2
       [ $lost -ge 3 ] && { log "VM LOST"; exit 3; }
     else lost=0; fi
