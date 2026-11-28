@@ -4,6 +4,17 @@ Research and engineering repository studying **bounded private reasoning (`think
 
 ---
 
+## Contents
+
+- [Problem Formulation](#1-problem-formulation)
+- [Key Experimental Results](#2-key-experimental-results)
+- [Design Principles](#3-design-principles)
+- [Repository Structure](#4-repository-structure)
+- [Quickstart](#5-quickstart)
+- [License](#license)
+
+---
+
 ## 1. Problem Formulation
 
 Given a software repository snapshot $R$ at base commit $c_0$, an issue description $I$, and strict per-task execution budgets $(B_{\text{calls}}, B_{\text{time}}, B_{\text{out}})$, a small-model SWE agent produces a candidate source patch $\Delta R$ via multi-turn tool interaction (`run_command`, `read_file`, `edit_file`, `write_file`, `submit_patch`).
