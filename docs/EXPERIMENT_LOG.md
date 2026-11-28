@@ -1,4 +1,4 @@
-# Experiment log (v16 → v23)
+# Experiment log (v16 → v28)
 
 Start here when you look back. This page records what each variant changed, how it scored and what we concluded.
 The README covers v13 and v14 and the harness itself.
@@ -35,6 +35,10 @@ v14 (0-skill Budget-Fit, 28c/5m, think=1024, max_out=2560)
 ├── v18c  + code-intel tools
 ├── v24   {problem_description} pinned at the end of the system prompt (no SUBMIT GATE)
 ├── v25   2-stage SequentialAgent on exact v14 (Stage 1 no submit_patch -> Stage 2 shared-context live repro & submit)
+│   ├── v26   3-stage SequentialAgent on exact v25 (Stage 2 repro verifier without submit_patch -> Stage 3 blind think=0 submitter)
+│   ├── v26b  v26 + diff-guarded Stage 3 (never calls submit_patch on empty diff) + Stage 2 heredoc fallback
+│   └── v27   v25 + verify-patch v6.3 skill in Stage 2 (AST + symtable undefined-name diff + import diff + baseline-diff pytest)
+│       └── v28   v27 + locate-code skill in Stage 1 (IDF + AST span & matching test locator)
 └── v18d  + SUBMIT GATE paragraph            ← submitted (LB 0.03)
     ├── v19a  + on-policy LoRA adapter
     ├── v19b  + code-intel tools
@@ -67,6 +71,10 @@ v17a  surgical Budget-Fit prompt rewrite     v17b  2-stage sequential agent with
 | W5b | v23b pinned issue | **12** | **3** | 6 | **11** | **165** | v18d 9/40 | best of W5 (+3, fastest, fewest TO); still built on v18d (LB 0.03) |
 | W6 | v24 v14+pinned issue | 10 | 1 | 5 | 11 | **174** | v14 10/40 | tie (10 vs 10); faster (174s vs 210s) but lower HO (1 vs 2) and more runtime_exc (10 vs 7) — not worth a LB slot |
 | W7 | **v25 seq2 v14+repro** | **11** | **2** | **1** | **8** | 166 | v14 9/40 | **best structural win**: +2 pass (11/23 informative, first-ever `fastapi_14297` pass), 4x fewer empty (1 vs 4), -5 TO (8 vs 13), -3 runtime_exc (6 vs 9) |
+| W8 | v26 seq3 blind submitter | 7 | 2 | 8 | 10 | 230 | v25 10/40 | worse: blind `think=0` Stage 3 submits `patch_size=0` on mid-turn text handoffs (`empty` 8 vs 5), blocking harness nudges; first-ever `fastapi_14616` pass |
+| W8b | **v26b seq3 diff-guarded** | **11** | **2** | **4** | 12 | 218 | v25 10/40 | diff-guard fixed the blind-submit bug (+4 pass over v26, halved empty 8 → 4, dev 9/16 vs 8/16), edging v25 by +1 (inside noise; slower 218s vs 191s) |
+| W9 | v27 seq2 + verify-patch v6.3 | **10** | 1 | **3** | 13 | 240 | v25 7/40 | +3 over a weak control (v25 scored 7 here vs 10–11 before), fewest empty; but slowest (240s), most TO, and `import_broken` went **up** 3 → 6 (model kept patches after `STATIC_OK_CHECK_TESTS`) |
+| W9 | v28 v27 + locate-code | 8 | **2** | 5 | 12 | 205 | v25 7/40 | `wrong_file` 13 → **8** (locator works), `import_broken` 2; but extra wrong-logic patches on the right file, so only +1 pass |
 
 v16 and v20a/b/c were built but have no 40-task result. Their wave was lost to Colab VM failures.
 
@@ -79,6 +87,18 @@ v16 and v20a/b/c were built but have no 40-task result. Their wave was lost to C
 | runtime exception in the patched code | 7 | 6 | 6 | 6 | 7 | 10 | 7 | **6** | 9 |
 | wrong logic (tests run, assertions fail) | 18 | 15 | 17 | **12** | 13 | 13 | 16 | 17 | 13 |
 | empty patch | 2 | 6 | **3** | 6 | 6 | 5 | 4 | **1** | 4 |
+
+Wave 9 (same VM, `tools/analyze_failures.py`):
+
+| Failure class | W9 v25 | W9 v27 | W9 v28 |
+|---|---|---|---|
+| PASS | 7 | **10** | 8 |
+| patch breaks import | 3 | 6 | **2** |
+| runtime exception in the patched code | 6 | **4** | 6 |
+| wrong logic | 18 | **17** | 19 |
+| empty patch | 6 | **3** | 5 |
+| edited the wrong file | 13 | 13 | **8** |
+| existing test fails | 3 | 7 | 3 |
 
 In the crashing cases the traces show the agent ran **only `py_compile`** and then submitted. It skipped the
 repro step that the SUBMIT GATE asks for. E4B reliably runs the exact commands a prompt spells out, and
