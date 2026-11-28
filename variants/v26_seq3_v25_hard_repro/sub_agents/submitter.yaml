@@ -1,0 +1,10 @@
+name: v14_submitter_stage3
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 3 zero-thinking submitter that immediately calls submit_patch to finalize the verified workspace diff.
+instruction: !include ../prompts/submitter.md
+include_contents: default
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - submit_patch
+generate_content_config: !include ../configs/sampling_submit.yaml

@@ -55,9 +55,12 @@ def _run(cmd: list[str], cwd: Path | None = None, timeout: int = 120, env: dict[
 
 
 def ensure_repo_cache(repo: str) -> Path:
+    import shutil
     REPOS_CACHE.mkdir(parents=True, exist_ok=True)
     slug = repo.replace("/", "__")
     repo_dir = REPOS_CACHE / slug
+    if repo_dir.exists() and _run(["git", "rev-parse", "--is-inside-work-tree"], cwd=repo_dir, timeout=15).returncode != 0:
+        shutil.rmtree(repo_dir, ignore_errors=True)
     if not (repo_dir / ".git").exists():
         url = f"https://github.com/{repo}.git"
         print(f"[cache] Cloning {url} -> {repo_dir} ...", flush=True)
@@ -69,10 +72,14 @@ def ensure_repo_cache(repo: str) -> Path:
 
 def ensure_repo_venv(repo: str, sample_ws: Path) -> Path:
     """Create one reusable base venv per repo with pytest + repo deps; editable install updated per task."""
+    import shutil
     VENVS_CACHE.mkdir(parents=True, exist_ok=True)
     slug = repo.replace("/", "__")
     vdir = VENVS_CACHE / slug
     py = vdir / "bin" / "python"
+    probe = "import pytest" + (", pydantic, starlette, httpx" if repo == "fastapi/fastapi" else "")
+    if vdir.exists() and (not py.is_file() or _run([str(py), "-c", probe], timeout=15).returncode != 0):
+        shutil.rmtree(vdir, ignore_errors=True)
     if not py.is_file():
         print(f"[cache] Creating venv for {repo} at {vdir} ...", flush=True)
         subprocess.run(["uv", "venv", str(vdir), "--python", "3.12"], check=True, capture_output=True)

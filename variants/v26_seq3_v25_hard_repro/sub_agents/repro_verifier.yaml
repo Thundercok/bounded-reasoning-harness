@@ -1,0 +1,14 @@
+name: v14_repro_verifier_stage2
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 2 lean repro verifier (shared context, without submit_patch) that checks git diff, runs one real-import inline repro, fixes any crash/failure at most once, and hands off to Stage 3.
+instruction: !include ../prompts/repro_verifier.md
+include_contents: default
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+generate_content_config: !include ../configs/sampling.yaml

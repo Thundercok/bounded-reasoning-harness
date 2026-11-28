@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v27_seq2_v25_verify_patch
+description: "2-stage SequentialAgent on exact v25 (28c/5m): Stage 1 0-skill v14 solver (no submit_patch) -> Stage 2 shared-context verifier with verify-patch v6.3 (AST + symtable undefined-name diff + import diff + baseline-diff pytest) & submitter."
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/repro_submitter.yaml

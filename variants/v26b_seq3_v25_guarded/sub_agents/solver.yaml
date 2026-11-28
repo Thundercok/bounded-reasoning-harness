@@ -1,0 +1,13 @@
+name: v14_solver_stage1
+model: gemma-4-e4b-it-qat-w4a16-ct
+description: Stage 1 exact v14 Budget-Fit solver (without submit_patch) that locates, edits, and hands off to Stage 2 for mandatory inline repro verification.
+instruction: !include ../prompts/solver.md
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+generate_content_config: !include ../configs/sampling.yaml

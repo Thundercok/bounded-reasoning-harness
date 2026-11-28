@@ -1,0 +1,6 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v28_seq2_v27_locate
+description: "2-stage SequentialAgent (28c/5m): Stage 1 v14 solver + deterministic locate-code skill (IDF+AST span & test finder) -> Stage 2 shared-context verifier with verify-patch v6.3 & submitter."
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/repro_submitter.yaml

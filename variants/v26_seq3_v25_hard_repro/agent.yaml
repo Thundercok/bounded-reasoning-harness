@@ -1,0 +1,7 @@
+agent_class: SequentialAgent
+name: gemma4_e4b_v26_seq3_v25_hard_repro
+description: "3-stage SequentialAgent on exact v25 (28c/5m): Stage 1 v14 solver (no submit_patch) -> Stage 2 shared-context inline-repro verifier (no submit_patch) -> Stage 3 think=0 submitter."
+sub_agents:
+  - config_path: sub_agents/solver.yaml
+  - config_path: sub_agents/repro_verifier.yaml
+  - config_path: sub_agents/submitter.yaml
